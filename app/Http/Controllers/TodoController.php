@@ -63,7 +63,6 @@ class TodoController extends Controller
         return response()->json(['message' => 'Todo updated'], 200);
     }
 
-
     // delete Todo
     public function delete($id)
     {
