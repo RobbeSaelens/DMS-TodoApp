@@ -35,7 +35,6 @@ class TodoController extends Controller
         return response()->json(['message' => 'Todo created'], 201);
     }
 
-
     // update Todo status or details
     public function update(Request $request, $id)
     {
