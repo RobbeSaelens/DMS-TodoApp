@@ -16,9 +16,18 @@ use App\Http\Middleware\VerifyCsrfToken;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('todo_list');
 });
 
+Route::get('/todos/create', function () {
+    return view('todo_create');
+});
+
+Route::get('/edit/{id}', function () {
+    return view('todo_edit');
+});
+
+Route::get('/todo/{id}', [TodoController::class, 'getOneTodo']);
 Route::get('/todos', [TodoController::class, 'index']);
 Route::post('/store', [TodoController::class, 'store'])->middleware(VerifyCsrfToken::class);
 Route::put('/update/{id}', [TodoController::class, 'update'])->middleware(VerifyCsrfToken::class);

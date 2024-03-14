@@ -15,6 +15,17 @@ class TodoController extends Controller
         return response()->json($todos, 200);
     }
 
+    // get single Todo
+    public function getOneTodo($id)
+    {
+        try {
+            $todo = Todo::findOrFail($id);
+            return response()->json($todo, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Todo not found', $e->getMessage()], 404);
+        }
+    }
+
     // create Todo
     public function store(Request $request)
     {
