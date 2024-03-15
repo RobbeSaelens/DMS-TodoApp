@@ -37,7 +37,7 @@ export default {
             axios.post('/store', newTodo)
                 .then(response => {
                     console.log(response.data.message);
-                    this.$router.go(-1);
+                    window.location.href = '/';
                 })
                 .catch(error => {
                     console.error('Error adding Todo:', error.response.data);

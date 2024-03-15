@@ -63,8 +63,7 @@ export default {
             axios
                 .put(`/update/${id}`, this.todo)
                 .then((response) => {
-                    console.log(response.data.message);
-                    this.$router.go(-1);
+                    window.location.href = "/";
                 })
                 .catch((error) => {
                     console.error("Error updating Todo:", error.response.data);

@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
+import "../css/output.css";
 
 import AddTodo from "./components/AddTodo.vue";
 import TodoList from "./components/TodoList.vue";

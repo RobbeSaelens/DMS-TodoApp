@@ -6,8 +6,7 @@
     <title>Todo App</title>
     @vite(['resources/js/app.js'])
 </head>
-<body>
-    <h1>@yield('header')</h1>
+<body class="bg-gray-800">
     <div id="app">
         @yield('content')
     </div>
