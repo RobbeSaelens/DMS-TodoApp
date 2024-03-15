@@ -11,8 +11,12 @@ class TodoController extends Controller
     // get all Todos
     public function index()
     {
-        $todos = Todo::all();
-        return response()->json($todos, 200);
+        try {
+            $todos = Todo::all();
+            return response()->json($todos, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Todos not found', $e->getMessage()], 404);
+        }
     }
 
     // get single Todo

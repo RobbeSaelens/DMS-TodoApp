@@ -27,8 +27,10 @@ Route::get('/edit/{id}', function () {
     return view('todo_edit');
 });
 
-Route::get('/admin/todo/{id}', [TodoController::class, 'getOneTodo']);
-Route::get('/admin/todos', [TodoController::class, 'index']);
+Route::get('/admin/todo/{id}', [TodoController::class, 'getOneTodo'])->middleware(VerifyCsrfToken::class);
+Route::get('/admin/todos', [TodoController::class, 'index'])->middleware(VerifyCsrfToken::class);
+
+Route::redirect('/admin', '/admin/swagger-ui');
 
 Route::post('/admin/store', [TodoController::class, 'store'])->middleware(VerifyCsrfToken::class);
 
