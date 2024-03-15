@@ -9,7 +9,7 @@
                 <CirclePlus class="w-8 h-8 text-indigo-500 hover:text-indigo-600" />
             </a>
         </div>
-        <div class="mb-4 space-y-1">
+        <div class="space-y-1">
             <p class="flex items-center text-gray-300 font-medium">Welcome to your Todo list!
                 <Hand class="ml-1" />
             </p>
@@ -17,9 +17,19 @@
                 the pencil to
                 edit the todo. </p>
         </div>
-        <hr class="border-gray-500 w-1/2 mx-auto mb-2" />
-        <div class="flex justify-center text-gray-400 text-sm italic">
-            Today: {{ today() }}
+        <div class="flex justify-center space-x-8 my-5 text-gray-400">
+            <div class="flex items-center space-x-1 text-indigo-500">
+                <CircleDashed class="w-5 h-5" />
+                <p>{{ todos.filter(todo => todo.status === 'open').length }}</p>
+            </div>
+            <div class="flex items-center space-x-1 text-yellow-500">
+                <Pickaxe class="w-5 h-5" />
+                <p>{{ todos.filter(todo => todo.status === 'in-progress').length }}</p>
+            </div>
+            <div class="flex items-center space-x-1 text-green-500">
+                <CircleCheck class="w-5 h-5" />
+                <p>{{ todos.filter(todo => todo.status === 'completed').length }}</p>
+            </div>
         </div>
         <ul v-if="todos.length">
             <TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" />
@@ -34,7 +44,7 @@
 
 <script>
 import axios from "axios";
-import { CirclePlus, ListChecks, Hand } from 'lucide-vue-next';
+import { CirclePlus, ListChecks, Hand, CircleDashed, Pickaxe, CircleCheck } from 'lucide-vue-next';
 
 import TodoItem from "./TodoItem.vue";
 
@@ -43,6 +53,9 @@ export default {
         CirclePlus,
         ListChecks,
         Hand,
+        CircleDashed,
+        Pickaxe,
+        CircleCheck,
 
         TodoItem,
     },

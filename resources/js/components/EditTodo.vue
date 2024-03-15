@@ -10,12 +10,16 @@
             <div class="mb-4">
                 <label for="title" class="text-gray-400">Title</label>
                 <input type="text" name="title" v-model="todo.title"
-                    class="bg-gray-800 text-white border-2 border-gray-600 rounded-md px-4 py-2 w-full focus:outline-none focus:border-indigo-500" />
+                    class="bg-gray-800 text-white border-2 border-gray-600 rounded-md px-4 py-2 w-full focus:outline-none focus:border-indigo-500"
+                    required />
+                <p v-if="errors.title" class="text-red-500">{{ errors.title[0] }}</p>
             </div>
             <div class="mb-4">
                 <label for="description" class="text-gray-400">Description</label>
                 <textarea name="description" v-model="todo.description" placeholder="Todo Description"
-                    class="bg-gray-800 text-white border-2 border-gray-600 rounded-md px-4 py-2 w-full h-24 focus:outline-none focus:border-indigo-500"></textarea>
+                    class="bg-gray-800 text-white border-2 border-gray-600 rounded-md px-4 py-2 w-full h-24 focus:outline-none focus:border-indigo-500"
+                    required></textarea>
+                <p v-if="errors.description" class="text-red-500">{{ errors.description[0] }}</p>
             </div>
             <div class="mb-4">
                 <label for="status" class="text-gray-400">Status</label>
@@ -25,6 +29,7 @@
                     <option value="in-progress">In progress</option>
                     <option value="completed">Completed</option>
                 </select>
+                <p v-if="errors.status" class="text-red-500">{{ errors.status[0] }}</p>
             </div>
             <div class="flex items-center justify-between">
                 <a href="/"
@@ -55,7 +60,8 @@ export default {
                 title: '',
                 description: '',
                 status: ''
-            }
+            },
+            errors: {}
         };
     },
     created() {
@@ -88,7 +94,12 @@ export default {
                     window.location.href = "/";
                 })
                 .catch((error) => {
-                    console.error("Error updating Todo:", error.response.data);
+                    if (error.response && error.response.status === 422) {
+                        // Display validation errors
+                        this.errors = error.response.data.errors;
+                    } else {
+                        console.error("Error updating Todo:", error.response.data);
+                    }
                 });
         }
     }

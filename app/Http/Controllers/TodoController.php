@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use \Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use App\Models\Todo;
+use App\Http\Requests\TodoRequest;
 
 class TodoController extends Controller
 {
@@ -31,17 +32,12 @@ class TodoController extends Controller
     }
 
     // create Todo
-    public function store(Request $request)
+    public function store(TodoRequest $request)
     {
         try {
-            $request->validate([
-                'title' => 'required',
-                'description' => 'required',
-                'status' => 'nullable|in:open,in-progress,completed',
-            ]);
             $status = $request->has('status') ? $request->status : 'open';
 
-            $todoData = array_merge($request->all(), ['status' => $status]);
+            $todoData = array_merge($request->validated(), ['status' => $status]);
 
             $todo = Todo::create($todoData);
         } catch (ValidationException $e) {
@@ -51,7 +47,7 @@ class TodoController extends Controller
     }
 
     // update Todo
-    public function update(Request $request, $id)
+    public function update(TodoRequest $request, $id)
     {
         try {
             $todo = Todo::findOrFail($id);
@@ -76,24 +72,6 @@ class TodoController extends Controller
             return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
         }
         return response()->json(['message' => 'Todo updated'], 200);
-    }
-
-    // update only status of Todo
-    public function updateStatus(Request $request, $id)
-    {
-        try {
-            $todo = Todo::findOrFail($id);
-
-            $request->validate([
-                'status' => 'required|in:open,in-progress,completed',
-            ]);
-
-            $todo->status = $request->status;
-            $todo->save();
-        } catch (ValidationException $e) {
-            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
-        }
-        return response()->json(['message' => 'Todo status updated'], 200);
     }
 
     // delete Todo

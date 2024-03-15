@@ -1,9 +1,12 @@
 <template>
     <li class="rounded-md my-5 p-4 bg-gray-800 shadow">
-        <div class="mb-3">
+        <div class="mb-3 flex items-center justify-between">
             <strong class="text-lg">{{ todo.title }}</strong>
+            <span class=" text-gray-600 flex items-center text-sm">
+                <Fingerprint class="mr-1 h-4 w-4" /> {{ todo.id }}
+            </span>
         </div>
-        <section class="space-y-1">
+        <section class="space-y-5">
             <div class="flex justify-between">
                 <p class="text-gray-400">{{ todo.description }}</p>
                 <div class="flex items-center space-x-3 mt-4 sm:mt-0">
@@ -16,7 +19,12 @@
                     </button>
                 </div>
             </div>
-            <TodoStatus :todo="todo" />
+            <div class="flex justify-between">
+                <TodoStatus :todo="todo" />
+                <span class="text-sm text-gray-600 flex items-center">
+                    Made {{ formatDate(todo.created_at) }}
+                </span>
+            </div>
         </section>
 
         <DeleteModal :todo="todo" @todo-deleted="handleTodoDeleted" @close-modal="handleCloseModal" />
@@ -26,7 +34,7 @@
 
 <script>
 import axios from "axios";
-import { Trash, Pencil } from 'lucide-vue-next';
+import { Trash, Pencil, Fingerprint } from 'lucide-vue-next';
 
 import DeleteModal from "@/components/DeleteModal.vue";
 import TodoStatus from "@/components/TodoStatus.vue";
@@ -36,6 +44,7 @@ export default {
     components: {
         Pencil,
         Trash,
+        Fingerprint,
 
         DeleteModal,
         TodoStatus,
