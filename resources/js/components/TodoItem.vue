@@ -1,8 +1,10 @@
 <template>
-    <li :class="{ 'rounded-md my-5 p-4 bg-gray-800 shadow': true, 'opacity-70': todo.status === 'completed' }"
+    <li :class="{ 'rounded-md my-5 p-4 bg-gray-800 shadow': true, 'bg-opacity-60': todo.status === 'completed' }"
         :id="`todo-${todo.id}`">
         <div class="mb-3 flex items-center justify-between">
-            <strong class="text-lg">{{ todo.title }}</strong>
+            <strong :class="{ 'opacity-60': todo.status === 'completed' }" class="text-xl text-gray-200">
+                {{ todo.title }}
+            </strong>
             <span class=" text-gray-600 flex items-center text-sm">
                 <Fingerprint class="mr-1 h-4 w-4" /> {{ todo.id }}
             </span>

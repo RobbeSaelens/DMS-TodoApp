@@ -18,26 +18,22 @@
                 edit the todo. </p>
         </div>
         <div class="flex justify-center space-x-8 my-5 text-gray-400">
-            <div class="flex items-center space-x-1 text-indigo-500">
-                <CircleDashed class="w-5 h-5" />
-                <p>{{ todos.filter(todo => todo.status === 'open').length }}</p>
-            </div>
-            <div class="flex items-center space-x-1 text-yellow-500">
-                <Pickaxe class="w-5 h-5" />
-                <p>{{ todos.filter(todo => todo.status === 'in-progress').length }}</p>
-            </div>
-            <div class="flex items-center space-x-1 text-green-500">
-                <CircleCheck class="w-5 h-5" />
-                <p>{{ todos.filter(todo => todo.status === 'completed').length }}</p>
+            <div v-for="status in statuses" :key="status" class="flex items-center space-x-1 cursor-pointer"
+                :class="{ 'opacity-100 font-bold': isActive(status), 'opacity-50 font-light': !isActive(status), 'text-indigo-500': status === 'open', 'text-yellow-500': status === 'in-progress', 'text-green-500': status === 'completed' }"
+                @click="toggleFilter(status)">
+                <component :is="statusIcons[status]" class="w-5 h-5" />
+                <p>
+                    {{ todos.filter(todo => todo.status === status).length }}
+                </p>
             </div>
         </div>
 
-        <ul v-if="todos.length">
-            <TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" />
+        <ul v-if="filteredTodos.length">
+            <TodoItem v-for="todo in filteredTodos" :key="todo.id" :todo="todo" />
         </ul>
         <ul v-else class="text-center text-gray-400 mt-5">
             <li class="rounded-md my-5 p-4 bg-gray-800 shadow">
-                <p cla>No todos found.</p>
+                <p>No todos found.</p>
             </li>
         </ul>
     </div>
@@ -57,12 +53,19 @@ export default {
         CircleDashed,
         Pickaxe,
         CircleCheck,
-
         TodoItem,
     },
     data() {
         return {
             todos: [],
+            filteredTodos: [],
+            activeFilters: ['open', 'in-progress', 'completed'],
+            statuses: ['open', 'in-progress', 'completed'],
+            statusIcons: {
+                'open': 'CircleDashed',
+                'in-progress': 'Pickaxe',
+                'completed': 'CircleCheck',
+            },
         };
     },
     created() {
@@ -75,10 +78,29 @@ export default {
                 .get("/admin/todos")
                 .then((response) => {
                     this.todos = response.data;
+                    // Initialize filteredTodos with all todos initially
+                    this.filteredTodos = [...this.todos];
                 })
                 .catch((error) => {
                     console.error("Error fetching Todos:", error.response.data);
                 });
+        },
+        // Toggle filter by status
+        toggleFilter(status) {
+            const index = this.activeFilters.indexOf(status);
+            if (index !== -1) {
+                // If status is already active, remove it
+                this.activeFilters.splice(index, 1);
+            } else {
+                // Otherwise, add it to activeFilters
+                this.activeFilters.push(status);
+            }
+            // Update filteredTodos based on activeFilters
+            this.filteredTodos = this.todos.filter(todo => this.activeFilters.includes(todo.status));
+        },
+        // Check if a status is active
+        isActive(status) {
+            return this.activeFilters.includes(status);
         },
     }
 };

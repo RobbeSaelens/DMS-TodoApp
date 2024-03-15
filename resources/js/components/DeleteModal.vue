@@ -13,7 +13,8 @@
                     </button>
                     <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-800
                               bg-white rounded-lg hover:bg-gray-100 hover:text-gray-900" @click="closeModal">No,
-                        cancel</button>
+                        cancel
+                    </button>
                 </div>
             </div>
         </div>

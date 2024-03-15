@@ -2771,6 +2771,14 @@ input:checked + .toggle-bg {
   --tw-bg-opacity: 0.25;
 }
 
+.bg-opacity-70 {
+  --tw-bg-opacity: 0.7;
+}
+
+.bg-opacity-60 {
+  --tw-bg-opacity: 0.6;
+}
+
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
@@ -3244,6 +3252,10 @@ input:checked + .toggle-bg {
   font-weight: 600;
 }
 
+.font-light {
+  font-weight: 300;
+}
+
 .uppercase {
   text-transform: uppercase;
 }
@@ -3601,6 +3613,18 @@ input:checked + .toggle-bg {
   color: rgb(99 49 18 / var(--tw-text-opacity));
 }
 
+.text-opacity-70 {
+  --tw-text-opacity: 0.7;
+}
+
+.text-opacity-35 {
+  --tw-text-opacity: 0.35;
+}
+
+.text-opacity-50 {
+  --tw-text-opacity: 0.5;
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -3673,6 +3697,18 @@ input:checked + .toggle-bg {
 
 .opacity-80 {
   opacity: 0.8;
+}
+
+.opacity-20 {
+  opacity: 0.2;
+}
+
+.opacity-30 {
+  opacity: 0.3;
+}
+
+.opacity-60 {
+  opacity: 0.6;
 }
 
 .shadow {
