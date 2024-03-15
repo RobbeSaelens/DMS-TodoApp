@@ -18,11 +18,16 @@
                 edit the todo. </p>
         </div>
         <hr class="border-gray-500 w-1/2 mx-auto mb-2" />
-        <div class="flex justify-center text-gray-400 text-sm ">
+        <div class="flex justify-center text-gray-400 text-sm italic">
             Today: {{ today() }}
         </div>
-        <ul>
+        <ul v-if="todos.length">
             <TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" />
+        </ul>
+        <ul v-else class="text-center text-gray-400 mt-5">
+            <li class="rounded-md my-5 p-4 bg-gray-800 shadow">
+                <p cla>No todos found.</p>
+            </li>
         </ul>
     </div>
 </template>
@@ -48,7 +53,6 @@ export default {
     },
     created() {
         this.fetchTodos();
-        this.watchAxios();
     },
     methods: {
         // fetch all todos
@@ -66,19 +70,6 @@ export default {
         // today
         today() {
             return new Date().toLocaleDateString();
-        },
-
-        // watch axios, when request is made, fetch todos again
-        watchAxios() {
-            axios.interceptors.response.use(
-                (response) => {
-                    this.fetchTodos();
-                    return response;
-                },
-                (error) => {
-                    return Promise.reject(error);
-                }
-            );
         },
     },
 };

@@ -41,26 +41,7 @@
             </div>
         </section>
 
-        <div :id="'delete-modal-' + todo.id" tabindex="-1"
-            class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 justify-center items-center bg-black bg-opacity-80">
-            <div class="relative p-4 w-full max-w-md max-h-full">
-                <div class="bg-gray-800 rounded-lg shadow p-2">
-                    <div class="py-5 text-center items-center text-gray-500">
-                        <h3 class="text-lg font-normal">Are you sure you
-                            want to delete</h3>
-                        <strong class="block mb-5">{{ deleteTodoTitle }}</strong>
-                        <button type="button" @click="deleteTodo(deleteTodoId)"
-                            class="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                            Yes, I'm sure
-                        </button>
-                        <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-800
-                                    bg-white rounded-lg hover:bg-gray-100 hover:text-gray-900"
-                            @click="closeModal()">No,
-                            cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <DeleteModal :todo="todo" @todo-deleted="handleTodoDeleted" @close-modal="handleCloseModal" />
 
     </li>
 </template>
@@ -68,6 +49,7 @@
 <script>
 import axios from "axios";
 import { Trash, Pencil, CirclePlus, CircleDashed, Pickaxe, CircleCheck, ListChecks, CircleAlert, CircleX } from 'lucide-vue-next';
+import DeleteModal from "@/components/DeleteModal.vue";
 
 export default {
     components: {
@@ -80,6 +62,8 @@ export default {
         ListChecks,
         CircleAlert,
         CircleX,
+
+        DeleteModal
     },
     data() {
         return {
@@ -102,17 +86,13 @@ export default {
             modal.classList.toggle('hidden');
             modal.classList.add('flex');
         },
-        deleteTodo() {
-            axios
-                .delete(`/delete/${this.deleteTodoId}`)
-                .then((response) => {
-                    // Close the modal
-                    const modal = document.getElementById('delete-modal-' + this.deleteTodoId);
-                    modal.classList.add('hidden');
-                })
-                .catch((error) => {
-                    console.error("Error deleting Todo:", error.response.data);
-                });
+        handleTodoDeleted() {
+            location.reload();
+        },
+        handleCloseModal() {
+            const modal = document.getElementById('delete-modal-' + this.deleteTodoId);
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         },
 
         // change status
@@ -126,19 +106,11 @@ export default {
             axios
                 .put(`/update-status/${this.todo.id}`, { status: status })
                 .then((response) => {
-                    console.log("Status updated:", response.data);
                     location.reload();
                 })
                 .catch((error) => {
                     console.error("Error updating status:", error.response.data);
                 })
-        },
-
-        // close modal
-        closeModal() {
-            const modal = document.getElementById('delete-modal-' + this.deleteTodoId);
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
         },
 
         // date format
