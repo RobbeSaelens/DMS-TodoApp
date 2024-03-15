@@ -1,12 +1,16 @@
 <template>
     <div v-if="todo" class="max-w-xl mx-auto my-10 p-7 bg-gray-700 text-white rounded-md shadow-xl">
-        <div class="flex justify-between items-center mb-5">
-            <h1 class="text-2xl font-semibold text-white">Edit Todo</h1>
-            <span class="text-sm text-gray-400 flex items-center">
-                <Fingerprint class="mr-1" /> {{ $route.params.id }}
-            </span>
+        <div v-if="successMessage" class="text-green-500 flex justify-center my-2 items-center space-x-1">
+            <CircleCheck class="w-5 h-5 " />
+            <span class="font-bold"> {{ successMessage }} </span>
         </div>
-        <form @submit.prevent="updateTodo">
+        <form v-else @submit.prevent="updateTodo">
+            <div class="flex justify-between items-center mb-5">
+                <h1 class="text-2xl font-semibold text-white">Edit Todo</h1>
+                <span class="text-sm text-gray-400 flex items-center">
+                    <Fingerprint class="mr-1" /> {{ $route.params.id }}
+                </span>
+            </div>
             <div class="mb-4">
                 <label for="title" class="text-gray-400">Title</label>
                 <input type="text" name="title" v-model="todo.title"
@@ -48,20 +52,22 @@
 
 <script>
 import axios from "axios";
-import { Fingerprint } from 'lucide-vue-next';
+import { Fingerprint, CircleCheck } from 'lucide-vue-next';
 
 export default {
     components: {
-        Fingerprint
+        Fingerprint,
+        CircleCheck,
     },
     data() {
         return {
             todo: {
                 title: '',
                 description: '',
-                status: ''
+                status: '',
             },
-            errors: {}
+            errors: {},
+            successMessage: '',
         };
     },
     created() {
@@ -91,7 +97,15 @@ export default {
             axios
                 .put(`/admin/update/${id}`, this.todo)
                 .then((response) => {
-                    window.location.href = "/";
+                    // Set success message
+                    this.successMessage = 'Todo updated successfully!';
+                    // Clear form fields
+                    this.todo.title = '';
+                    this.todo.description = '';
+                    // Delay for showing success animation
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
                 })
                 .catch((error) => {
                     if (error.response && error.response.status === 422) {

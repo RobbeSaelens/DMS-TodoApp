@@ -1,7 +1,12 @@
 <template>
     <div class="max-w-xl mx-auto my-10 p-7 bg-gray-700 text-white rounded-md shadow-xl">
-        <h2 class="text-2xl font-semibold mb-4 text-white">Add Todo</h2>
-        <form @submit.prevent="addTodo">
+        <div v-if="successMessage" class="text-green-500 flex justify-center my-2 items-center space-x-1">
+            <CircleCheck class="w-5 h-5 " />
+            <span class="font-bold"> {{ successMessage }} </span>
+        </div>
+        <form v-else @submit.prevent="addTodo">
+            <h2 class="text-2xl font-semibold mb-4 text-white">Add Todo</h2>
+
             <p v-if="errorMessage" class="text-red-500 flex justify-center my-2">{{ errorMessage }}</p>
 
             <div class="mb-4">
@@ -19,8 +24,9 @@
             <div class="flex items-center justify-between">
                 <a href="/"
                     class="bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded-md cursor-pointer focus:outline-none">Cancel</a>
-                <input type="submit" value="Add Todo"
+                <input v-if="!loading" type="submit" value="Add Todo"
                     class="bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-2 rounded-md cursor-pointer focus:outline-none">
+                <span v-else class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></span>
             </div>
         </form>
     </div>
@@ -28,14 +34,20 @@
 
 <script>
 import axios from 'axios';
+import { CircleCheck } from 'lucide-vue-next';
 
 export default {
+    components: {
+        CircleCheck,
+    },
     data() {
         return {
             title: '',
             description: '',
             errorMessage: '',
-            errors: {}
+            errors: {},
+            successMessage: '',
+            loading: false,
         };
     },
     methods: {
@@ -44,9 +56,18 @@ export default {
                 title: this.title,
                 description: this.description
             };
+            // Set loading state to true when submitting form
+            this.loading = true;
             axios.post('/admin/store', newTodo)
                 .then(response => {
-                    window.location.href = '/';
+                    // Set success message and clear form fields
+                    this.successMessage = 'Todo added successfully!';
+                    this.title = '';
+                    this.description = '';
+                    // Delay for showing success animation
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
                 })
                 .catch(error => {
                     if (error.response && error.response.status === 422) {
@@ -56,6 +77,10 @@ export default {
                     } else {
                         this.errorMessage = 'An error occurred while adding the todo.';
                     }
+                })
+                .finally(() => {
+                    // Set loading state back to false after request completion
+                    this.loading = false;
                 });
         },
     }

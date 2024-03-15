@@ -31,6 +31,7 @@
                 <p>{{ todos.filter(todo => todo.status === 'completed').length }}</p>
             </div>
         </div>
+
         <ul v-if="todos.length">
             <TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" />
         </ul>
@@ -79,11 +80,6 @@ export default {
                     console.error("Error fetching Todos:", error.response.data);
                 });
         },
-
-        // today
-        today() {
-            return new Date().toLocaleDateString();
-        },
-    },
+    }
 };
 </script>

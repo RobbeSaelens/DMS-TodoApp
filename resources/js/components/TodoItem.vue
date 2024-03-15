@@ -1,5 +1,6 @@
 <template>
-    <li class="rounded-md my-5 p-4 bg-gray-800 shadow">
+    <li :class="{ 'rounded-md my-5 p-4 bg-gray-800 shadow': true, 'opacity-70': todo.status === 'completed' }"
+        :id="`todo-${todo.id}`">
         <div class="mb-3 flex items-center justify-between">
             <strong class="text-lg">{{ todo.title }}</strong>
             <span class=" text-gray-600 flex items-center text-sm">
@@ -81,17 +82,8 @@ export default {
 
         // change status
         changeStatus(status) {
-            if (status === this.todo.status) {
-                return;
-            }
-            this.todo.status = status;
-
-            // Update status in the database
             axios
                 .put(`/admin/update/${this.todo.id}`, { status: status })
-                .then((response) => {
-                    location.reload();
-                })
                 .catch((error) => {
                     console.error("Error updating status:", error.response.data);
                 })

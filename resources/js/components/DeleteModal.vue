@@ -33,7 +33,7 @@ export default {
     methods: {
         deleteTodo() {
             axios.delete(`/admin/delete/${this.todo.id}`)
-                .then((response) => {
+                .then(() => {
                     this.closeModal();
                     this.$emit('todo-deleted');
                 })

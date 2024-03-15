@@ -46,9 +46,6 @@ export default {
             // Update status in the database
             axios
                 .put(`/admin/update/${this.todo.id}`, { status: status })
-                .then((response) => {
-                    location.reload();
-                })
                 .catch((error) => {
                     console.error("Error updating status:", error.response.data);
                 });
