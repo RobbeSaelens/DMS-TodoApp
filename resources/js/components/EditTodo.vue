@@ -72,7 +72,7 @@ export default {
             }
 
             axios
-                .get(`/todo/${id}`)
+                .get(`/admin/todo/${id}`)
                 .then((response) => {
                     this.todo = response.data;
                 })
@@ -83,7 +83,7 @@ export default {
         updateTodo() {
             const id = this.$route.params.id;
             axios
-                .put(`/update/${id}`, this.todo)
+                .put(`/admin/update/${id}`, this.todo)
                 .then((response) => {
                     window.location.href = "/";
                 })

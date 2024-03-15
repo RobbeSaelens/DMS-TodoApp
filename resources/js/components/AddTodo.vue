@@ -43,7 +43,7 @@ export default {
                 title: this.title,
                 description: this.description
             };
-            axios.post('/store', newTodo)
+            axios.post('/admin/store', newTodo)
                 .then(response => {
                     window.location.href = '/';
                 })

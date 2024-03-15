@@ -27,12 +27,11 @@ Route::get('/edit/{id}', function () {
     return view('todo_edit');
 });
 
-Route::get('/todo/{id}', [TodoController::class, 'getOneTodo']);
-Route::get('/todos', [TodoController::class, 'index']);
+Route::get('/admin/todo/{id}', [TodoController::class, 'getOneTodo']);
+Route::get('/admin/todos', [TodoController::class, 'index']);
 
-Route::post('/store', [TodoController::class, 'store'])->middleware(VerifyCsrfToken::class);
+Route::post('/admin/store', [TodoController::class, 'store'])->middleware(VerifyCsrfToken::class);
 
-Route::put('/update/{id}', [TodoController::class, 'update'])->middleware(VerifyCsrfToken::class);
-Route::put('/update-status/{id}', [TodoController::class, 'updateStatus'])->middleware(VerifyCsrfToken::class);
+Route::put('/admin/update/{id}', [TodoController::class, 'update'])->middleware(VerifyCsrfToken::class);
 
-Route::delete('/delete/{id}', [TodoController::class, 'delete'])->middleware(VerifyCsrfToken::class);
+Route::delete('/admin/delete/{id}', [TodoController::class, 'delete'])->middleware(VerifyCsrfToken::class);

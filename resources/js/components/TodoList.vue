@@ -58,7 +58,7 @@ export default {
         // fetch all todos
         fetchTodos() {
             axios
-                .get("/todos")
+                .get("/admin/todos")
                 .then((response) => {
                     this.todos = response.data;
                 })

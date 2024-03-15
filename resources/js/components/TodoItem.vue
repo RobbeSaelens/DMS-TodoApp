@@ -79,7 +79,7 @@ export default {
 
             // Update status in the database
             axios
-                .put(`/update-status/${this.todo.id}`, { status: status })
+                .put(`/admin/update/${this.todo.id}`, { status: status })
                 .then((response) => {
                     location.reload();
                 })
