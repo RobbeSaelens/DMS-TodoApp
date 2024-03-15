@@ -46,7 +46,7 @@ class TodoController extends Controller
         return response()->json(['message' => 'Todo created'], 201);
     }
 
-    // update Todo status or details
+    // update Todo
     public function update(Request $request, $id)
     {
         try {
@@ -72,6 +72,24 @@ class TodoController extends Controller
             return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
         }
         return response()->json(['message' => 'Todo updated'], 200);
+    }
+
+    // update only status of Todo
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            $todo = Todo::findOrFail($id);
+
+            $request->validate([
+                'status' => 'required|in:open,in-progress,completed',
+            ]);
+
+            $todo->status = $request->status;
+            $todo->save();
+        } catch (ValidationException $e) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
+        }
+        return response()->json(['message' => 'Todo status updated'], 200);
     }
 
     // delete Todo

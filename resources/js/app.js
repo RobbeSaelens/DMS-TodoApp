@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
+
 import "../css/output.css";
 
 import AddTodo from "./components/AddTodo.vue";
@@ -32,10 +33,10 @@ const router = createRouter({
 
 const app = createApp();
 
+app.use(router);
+
 app.component("addtodo", AddTodo);
 app.component("edittodo", EditTodo);
 app.component("todolist", TodoList);
-
-app.use(router);
 
 app.mount("#app");

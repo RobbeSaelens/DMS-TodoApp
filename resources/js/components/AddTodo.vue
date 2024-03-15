@@ -14,7 +14,7 @@
                 <button type="submit">Add Todo</button>
             </div>
         </form>
-        <a href="/">Back to overview</a>
+        <a href="/">Back to Todo list</a>
     </div>
 </template>
 
@@ -37,12 +37,12 @@ export default {
             axios.post('/store', newTodo)
                 .then(response => {
                     console.log(response.data.message);
-                    window.location.href = '/';
+                    router.push({ name: 'TodoList' });
                 })
                 .catch(error => {
                     console.error('Error adding Todo:', error.response.data);
                 });
-        }
+        },
     }
 };
 </script>

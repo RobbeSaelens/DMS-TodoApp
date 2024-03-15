@@ -29,6 +29,10 @@ Route::get('/edit/{id}', function () {
 
 Route::get('/todo/{id}', [TodoController::class, 'getOneTodo']);
 Route::get('/todos', [TodoController::class, 'index']);
+
 Route::post('/store', [TodoController::class, 'store'])->middleware(VerifyCsrfToken::class);
+
 Route::put('/update/{id}', [TodoController::class, 'update'])->middleware(VerifyCsrfToken::class);
+Route::put('/update-status/{id}', [TodoController::class, 'updateStatus'])->middleware(VerifyCsrfToken::class);
+
 Route::delete('/delete/{id}', [TodoController::class, 'delete'])->middleware(VerifyCsrfToken::class);
