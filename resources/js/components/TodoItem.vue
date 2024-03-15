@@ -16,29 +16,7 @@
                     </button>
                 </div>
             </div>
-            <div class="flex items-center justify-between pt-5">
-                <span v-if="todo.status === 'open'" title="Click to set in progress"
-                    class="text-indigo-500 hover:text-indigo-600 flex items-center space-x-1 cursor-pointer"
-                    @click="changeStatus('in-progress')">
-                    <CircleDashed class=" w-5 h-5" />
-                    <p>Open</p>
-                </span>
-                <span v-else-if="todo.status === 'in-progress'" title="Click to set completed"
-                    class="text-yellow-500 hover:text-yellow-600 flex items-center space-x-1 cursor-pointer"
-                    @click="changeStatus('completed')">
-                    <Pickaxe class="w-5 h-5" />
-                    <p>In Progress</p>
-                </span>
-                <span v-else-if="todo.status === 'completed'" title="Click to set open"
-                    class="text-green-500 hover:text-green-600 flex items-center space-x-1 cursor-pointer"
-                    @click="changeStatus('open')">
-                    <CircleCheck class="w-5 h-5" />
-                    <p>Completed</p>
-                </span>
-                <div class="text-gray-600 text-sm italic">
-                    Made on: {{ formatDate(todo.created_at) }}
-                </div>
-            </div>
+            <TodoStatus :todo="todo" />
         </section>
 
         <DeleteModal :todo="todo" @todo-deleted="handleTodoDeleted" @close-modal="handleCloseModal" />
@@ -48,22 +26,19 @@
 
 <script>
 import axios from "axios";
-import { Trash, Pencil, CirclePlus, CircleDashed, Pickaxe, CircleCheck, ListChecks, CircleAlert, CircleX } from 'lucide-vue-next';
+import { Trash, Pencil } from 'lucide-vue-next';
+
 import DeleteModal from "@/components/DeleteModal.vue";
+import TodoStatus from "@/components/TodoStatus.vue";
+
 
 export default {
     components: {
-        Trash,
         Pencil,
-        CirclePlus,
-        CircleDashed,
-        Pickaxe,
-        CircleCheck,
-        ListChecks,
-        CircleAlert,
-        CircleX,
+        Trash,
 
-        DeleteModal
+        DeleteModal,
+        TodoStatus,
     },
     data() {
         return {
