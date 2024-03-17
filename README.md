@@ -2,6 +2,12 @@
 
 This is a Todo application built with Laravel, Vue.js, and Tailwind CSS.
 
+
+https://github.com/RobbeSaelens/DMS-TodoApp/assets/43599480/0866df28-aaed-47fc-807a-4ced49377e4a
+
+
+
+
 ## Prerequisites
 
 Before starting the project, ensure that Docker Desktop is installed and running on your machine.
@@ -35,6 +41,8 @@ npm run dev
 ./vendor/bin/sail up / ./vendor/laravel/sail/bin/sail up
 ```
 
+Now the project can be used on [http://localhost](http://localhost:8000/)
+
 ## Backend (Laravel)
 
 The backend of this application is built using Laravel.
@@ -45,13 +53,14 @@ SwaggerUI is integrated to provide documentation for all available requests unde
 
 Vue.js is used for the frontend of the application.
 The main route of the application is '/', which displays the ToDo list.
--   Implemented Functionalities
-    -- Index: Provides an overview of all tasks.
-    -- Create: Allows users to add new tasks.
-    -- Store: Saves new tasks to the database.
-    -- Edit: Enables users to edit existing tasks.
-    -- Update: Updates existing tasks in the database.
-    -- Delete: Allows users to delete tasks.
+
+Implemented Functionalities:
+- Index: Provides an overview of all tasks.
+- Create: Allows users to add new tasks.
+- Store: Saves new tasks to the database.
+- Edit: Enables users to edit existing tasks.
+- Update: Updates existing tasks in the database.
+- Delete: Allows users to delete tasks.
 
 ## Authentication
 
